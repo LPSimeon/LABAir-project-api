@@ -1,5 +1,6 @@
 package labair_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +18,7 @@ public class Shoe {
 
     private String nome;
     private String categoria;
-    private int prezzo;
+    private double prezzo;
 
     @ElementCollection
     @CollectionTable(name = "scarpa_taglie", joinColumns = @JoinColumn(name = "scarpa_id"))
@@ -28,7 +29,12 @@ public class Shoe {
     private List<String> coloriDisponibili;
 
     private String descrizione;
-    private String immagine;
+    private String immagineCover;
+
+    @OneToMany(mappedBy = "scarpa", cascade = CascadeType.ALL)
+    private List<ImageColor> immaginiScarpa;
 
     private Boolean nuoviArrivi;
+
+    private int bestSeller;
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/scarpeList")
+@RequestMapping("/api/scarpeList")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ShoeController {
     private final ShoeService shoeService;
