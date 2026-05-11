@@ -11,5 +11,7 @@ import java.util.List;
 public interface ShoeRepository extends JpaRepository<Shoe, Long> {
     Shoe getShoeByNome(String nome);
 
-    List<Shoe> getShoesByCategoria(String categoria, Sort scarpeOrdinate);
+    List<Shoe> findByCategoria(String categoria, Sort scarpeOrdinate);
+
+    boolean existsByNome(String nome);
 }

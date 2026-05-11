@@ -18,7 +18,7 @@ public class Shoe {
 
     private String nome;
     private String categoria;
-    private double prezzo;
+    private Double prezzo;
 
     @ElementCollection
     @CollectionTable(name = "scarpa_taglie", joinColumns = @JoinColumn(name = "scarpa_id"))
@@ -36,5 +36,5 @@ public class Shoe {
 
     private Boolean nuoviArrivi;
 
-    private int bestSeller;
+    private Integer bestSeller;
 }
