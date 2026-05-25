@@ -1,5 +1,6 @@
 package labair_api.services;
 
+import labair_api.exceptions.ExistingShoeException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.CartItem;
 import labair_api.repositories.CartItemRepository;
@@ -9,31 +10,36 @@ import java.util.List;
 
 @Service
 public class CartItemService {
-    private CartItemRepository cartItemRepository;
+    private final CartItemRepository cartItemRepository;
 
     public CartItemService(CartItemRepository cartItemRepository) { this.cartItemRepository = cartItemRepository; }
+
+    public List<CartItem> findAllItems(){
+        return cartItemRepository.findAll();
+    }
 
     public List<CartItem> getCartByUser(Long userId) {
         return cartItemRepository.findByUtenteId(userId);
     }
 
     public CartItem addCartItem(CartItem cartItem){
-//        boolean isCartItemExistent = cartItemRepository.existsById(cartItem.getId());
-//        if(isCartItemExistent){
-//            throw ResourceNotFoundException("CartItem with id "+cartItem.getId()+" already exists");
-//        } else {
-            return cartItemRepository.save(cartItem);
+        if(cartItemRepository.existsById(cartItem.getId())){
+            throw new ExistingShoeException();
+        }
+
+        return cartItemRepository.save(cartItem);
 
     }
 
-    public void updateCartItemQuantity(CartItem cartItem, int quantity){
-        cartItemRepository.findById(cartItem.getId()).ifPresent(item ->{
-            item.setQuantita(quantity);
-            cartItemRepository.save(item);
-        });
+    public CartItem updateCartItemQuantity(String id, CartItem selectedCartItem){
+        CartItem existingItem = cartItemRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Item non trovato con id: " + id));
+
+        if(selectedCartItem.getQuantita() != null) existingItem.setQuantita(selectedCartItem.getQuantita());
+
+        return cartItemRepository.save(existingItem);
     }
 
-    public void removeCartItem(Long id){
+    public void removeCartItem(String id){
         cartItemRepository.deleteById(id);
     }
 }

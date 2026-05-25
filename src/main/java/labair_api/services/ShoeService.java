@@ -22,7 +22,7 @@ public class ShoeService {
     }
 
     public Shoe createNewShoe(Shoe shoe) {
-        if (shoeRepository.getShoeByNome(shoe.getNome()) != null) {
+        if (shoeRepository.getShoeByNomeIgnoreCase(shoe.getNome()) != null) {
             throw new ExistingShoeException();
         }
 
@@ -73,10 +73,10 @@ public class ShoeService {
     }
 
     public Shoe findShoeByNome(String nome) {
-        if (!shoeRepository.existsByNome(nome)) {
+        if (!shoeRepository.existsByNomeIgnoreCase(nome)) {
             throw new ResourceNotFoundException("Scarpa non trovata con nome: " + nome);
         }
 
-        return shoeRepository.getShoeByNome(nome);
+        return shoeRepository.getShoeByNomeIgnoreCase(nome);
     }
 }

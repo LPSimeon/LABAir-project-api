@@ -13,11 +13,15 @@ import lombok.ToString;
 @Data
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    private int quantita;
-    private int taglia;
+    private Integer productId;
+    private Integer quantita;
+    private String nome;
+    private String colore;
+    private Double prezzo;
+    private Integer taglia;
+    private String imgScarpaCover;
 
     @ManyToOne()
     @JoinColumn(name = "scarpa_id")
@@ -25,7 +29,7 @@ public class CartItem {
     private Shoe scarpa;
 
     @ManyToOne()
-    @JoinColumn(name = "utente_id")
+    @JoinColumn(name = "utente_id", nullable = true)
     @ToString.Exclude
     private User utente;
 }

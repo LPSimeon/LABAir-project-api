@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ShoeRepository extends JpaRepository<Shoe, Long> {
-    Shoe getShoeByNome(String nome);
+    Shoe getShoeByNomeIgnoreCase(String nome);
 
     List<Shoe> findByCategoria(String categoria, Sort scarpeOrdinate);
 
-    boolean existsByNome(String nome);
+    boolean existsByNomeIgnoreCase(String nome);
 }
