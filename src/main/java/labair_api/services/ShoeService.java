@@ -30,8 +30,8 @@ public class ShoeService {
         return shoeRepository.save(shoe);
     }
 
-    public Shoe updateShoeById(Long shoeId, Shoe shoeDetails){
-        Shoe existingShoe = shoeRepository.findById(shoeId).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + shoeDetails.getId()));
+    public Shoe updateShoeById(Long id, Shoe shoeDetails){
+        Shoe existingShoe = shoeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + shoeDetails.getId()));
 
         if(shoeDetails.getNome() != null) existingShoe.setNome(shoeDetails.getNome());
         if(shoeDetails.getCategoria() != null) existingShoe.setCategoria(shoeDetails.getCategoria());
@@ -81,16 +81,16 @@ public class ShoeService {
         return shoeRepository.getShoeByNomeIgnoreCase(nome);
     }
 
-    public ShoeDTO convertToDTO(Shoe shoeToConvert){
-        if(shoeToConvert == null) return null;
+    public ShoeDTO convertToDTO(Shoe shoe){
+        if(shoe == null) return null;
 
         ShoeDTO convertedShoe = new ShoeDTO();
 
-        convertedShoe.setId(shoeToConvert.getId());
-        convertedShoe.setNome(shoeToConvert.getNome());
-        convertedShoe.setCategoria(shoeToConvert.getCategoria());
-        convertedShoe.setPrezzo(shoeToConvert.getPrezzo());
-        convertedShoe.setImmagineCover(shoeToConvert.getImmagineCover());
+        convertedShoe.setId(shoe.getId());
+        convertedShoe.setNome(shoe.getNome());
+        convertedShoe.setCategoria(shoe.getCategoria());
+        convertedShoe.setPrezzo(shoe.getPrezzo());
+        convertedShoe.setImmagineCover(shoe.getImmagineCover());
 
 
 

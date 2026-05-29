@@ -33,8 +33,8 @@ public class ShoeController {
 
     // Funziona ma gestire gli spazi
     @GetMapping("/{nome}")
-    ResponseEntity<Shoe> getShoeByNome(@PathVariable String nome) {
-        return ResponseEntity.ok(shoeService.findShoeByNome(nome));
+    ResponseEntity<Shoe> getShoeByNome(@PathVariable String shoeName) {
+        return ResponseEntity.ok(shoeService.findShoeByNome(shoeName));
     }
 
     @PostMapping
@@ -54,9 +54,9 @@ public class ShoeController {
         }
     }
 
-    @PatchMapping("/{id}")
-    ResponseEntity<Map<String, String>> modifyShoe(@PathVariable Long id, @RequestBody Shoe shoeToUpdate) {
-        Shoe updated = shoeService.updateShoeById(id, shoeToUpdate);
+    @PatchMapping("/{shoeId}")
+    ResponseEntity<Map<String, String>> modifyShoe(@PathVariable Long shoeId, @RequestBody Shoe shoeToUpdate) {
+        Shoe updated = shoeService.updateShoeById(shoeId, shoeToUpdate);
 
         Map<String, String> response = new HashMap<>();
 
@@ -66,14 +66,14 @@ public class ShoeController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         } else {
             response.put("code", "404 NOT FOUND");
-            response.put("message", "Scarpa non trovata nel db con id: " + id);
+            response.put("message", "Scarpa non trovata nel db con shoeId: " + shoeId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<Map<String, String>> deleteShoe(@PathVariable Long id) {
-        boolean deleted = shoeService.deleteShoeById(id);
+    @DeleteMapping("/{shoeId}")
+    ResponseEntity<Map<String, String>> deleteShoe(@PathVariable Long shoeId) {
+        boolean deleted = shoeService.deleteShoeById(shoeId);
 
         Map<String, String> response = new HashMap<>();
 
@@ -83,7 +83,7 @@ public class ShoeController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         } else {
             response.put("code", "404 NOT FOUND");
-            response.put("message", "Scarpa non trovata nel db con id: " + id);
+            response.put("message", "Scarpa non trovata nel db con shoeId: " + shoeId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }

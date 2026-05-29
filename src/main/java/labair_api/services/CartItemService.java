@@ -15,9 +15,7 @@ import java.util.List;
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
 
-    public CartItemService(CartItemRepository cartItemRepository) {
-        this.cartItemRepository = cartItemRepository;
-    }
+    public CartItemService(CartItemRepository cartItemRepository) { this.cartItemRepository = cartItemRepository; }
 
     public List<CartItemDTO> findAllItems() {
         List<CartItem> items = cartItemRepository.findAll();
@@ -30,8 +28,8 @@ public class CartItemService {
         return convertedItems;
     }
 
-    public List<CartItem> getCartByUser(Long userId) {
-        return cartItemRepository.findByUtenteId(userId);
+    public List<CartItem> getCartByUser(Long id) {
+        return cartItemRepository.findByUtenteId(id);
     }
 
     public CartItem addCartItem(CartItemDTO itemDTO) {
@@ -55,33 +53,37 @@ public class CartItemService {
         return cartItemRepository.save(itemToAdd);
     }
 
-    public CartItem updateCartItemQuantity(String id, CartItem selectedCartItem) {
+    public CartItem updateCartItemQuantity(String id, CartItemDTO item) {
         CartItem existingItem = cartItemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Item non trovato con id: " + id));
-
-        if (selectedCartItem.getQuantita() != null) existingItem.setQuantita(selectedCartItem.getQuantita());
+        if (item.getQuantita() != null) existingItem.setQuantita(item.getQuantita());
 
         return cartItemRepository.save(existingItem);
     }
 
-    public void removeCartItem(String id) {
+    public boolean removeCartItem(String id) {
+        if(!cartItemRepository.existsById(id)) {
+            return false;
+        }
+
         cartItemRepository.deleteById(id);
+        return true;
     }
 
-    public CartItemDTO convertToDTO(CartItem itemToConvert) {
-        if (itemToConvert == null) return null;
+    public CartItemDTO convertToDTO(CartItem item) {
+        if (item == null) return null;
 
         CartItemDTO convertedItem = new CartItemDTO();
 
-        convertedItem.setId(itemToConvert.getId());
-        convertedItem.setQuantita(itemToConvert.getQuantita());
-        convertedItem.setColore(itemToConvert.getColore());
-        convertedItem.setTaglia(itemToConvert.getTaglia());
+        convertedItem.setId(item.getId());
+        convertedItem.setQuantita(item.getQuantita());
+        convertedItem.setColore(item.getColore());
+        convertedItem.setTaglia(item.getTaglia());
 
-        if (itemToConvert.getScarpa() != null) {
-            convertedItem.setScarpaId(itemToConvert.getScarpa().getId());
-            convertedItem.setNome(itemToConvert.getScarpa().getNome());
-            convertedItem.setPrezzo(itemToConvert.getScarpa().getPrezzo());
-            convertedItem.setImgScarpaCover(itemToConvert.getScarpa().getImmagineCover());
+        if (item.getScarpa() != null) {
+            convertedItem.setScarpaId(item.getScarpa().getId());
+            convertedItem.setNome(item.getScarpa().getNome());
+            convertedItem.setPrezzo(item.getScarpa().getPrezzo());
+            convertedItem.setImgScarpaCover(item.getScarpa().getImmagineCover());
         }
 
         return convertedItem;

@@ -31,9 +31,9 @@ public class CartItemController {
         return ResponseEntity.ok(cartItemService.addCartItem(itemToAdd));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Map<String,String>> updateItemQuantity(@PathVariable String id, @RequestBody CartItem itemToModify){
-        CartItem updated = cartItemService.updateCartItemQuantity(id, itemToModify);
+    @PatchMapping("/{itemId}")
+    public ResponseEntity<Map<String,String>> updateItemQuantity(@PathVariable String itemId, @RequestBody CartItemDTO selectedCartItem){
+        CartItem updated = cartItemService.updateCartItemQuantity(itemId, selectedCartItem);
 
         Map<String, String> response = new HashMap<>();
 
@@ -43,14 +43,24 @@ public class CartItemController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         } else {
             response.put("code", "404 NOT FOUND");
-            response.put("message", "Item non trovato nel db con id: " + id);
+            response.put("message", "Item non trovato nel db con id: " + itemId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteItem(@RequestBody CartItem itemToDelete){
-        cartItemService.removeCartItem(itemToDelete.getId());
-        return ResponseEntity.ok("FATTO");
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<Map<String, String>> deleteItem(@PathVariable String itemId){
+        boolean deleted = cartItemService.removeCartItem(itemId);
+
+        Map<String, String> response = new HashMap<>();
+        if (deleted) {
+            response.put("code", "202 ACCEPTED");
+            response.put("message", "Item eliminato");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        } else {
+            response.put("code", "404 NOT FOUND");
+            response.put("message", "Item non trovato nel db con id: " + itemId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 }
