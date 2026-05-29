@@ -1,5 +1,6 @@
 package labair_api.services;
 
+import labair_api.dto.ShoeDTO;
 import labair_api.exceptions.ExistingShoeException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.Shoe;
@@ -78,5 +79,21 @@ public class ShoeService {
         }
 
         return shoeRepository.getShoeByNomeIgnoreCase(nome);
+    }
+
+    public ShoeDTO convertToDTO(Shoe shoeToConvert){
+        if(shoeToConvert == null) return null;
+
+        ShoeDTO convertedShoe = new ShoeDTO();
+
+        convertedShoe.setId(shoeToConvert.getId());
+        convertedShoe.setNome(shoeToConvert.getNome());
+        convertedShoe.setCategoria(shoeToConvert.getCategoria());
+        convertedShoe.setPrezzo(shoeToConvert.getPrezzo());
+        convertedShoe.setImmagineCover(shoeToConvert.getImmagineCover());
+
+
+
+        return convertedShoe;
     }
 }

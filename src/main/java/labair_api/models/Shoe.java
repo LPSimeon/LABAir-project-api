@@ -1,6 +1,5 @@
 package labair_api.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +21,7 @@ public class Shoe {
 
     @ElementCollection
     @CollectionTable(name = "scarpa_taglie", joinColumns = @JoinColumn(name = "scarpa_id"))
-    private List<Integer> taglieDisponibili;
+    private List<String> taglieDisponibili;
 
     @ElementCollection
     @CollectionTable(name = "scarpa_colori", joinColumns = @JoinColumn(name = "scarpa_id"))

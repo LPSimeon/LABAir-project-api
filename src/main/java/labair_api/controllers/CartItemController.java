@@ -1,5 +1,6 @@
 package labair_api.controllers;
 
+import labair_api.dto.CartItemDTO;
 import labair_api.models.CartItem;
 import labair_api.services.CartItemService;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,12 @@ public class CartItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartItem>> getAllItems(){
+    public ResponseEntity<List<CartItemDTO>> getAllItems(){
         return ResponseEntity.ok(cartItemService.findAllItems());
     }
 
     @PostMapping
-    public ResponseEntity<CartItem> addNewItem(@RequestBody CartItem itemToAdd){
+    public ResponseEntity<CartItem> addNewItem(@RequestBody CartItemDTO itemToAdd){
         return ResponseEntity.ok(cartItemService.addCartItem(itemToAdd));
     }
 

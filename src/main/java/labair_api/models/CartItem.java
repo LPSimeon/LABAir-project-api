@@ -14,14 +14,9 @@ import lombok.ToString;
 public class CartItem {
     @Id
     private String id;
-
-    private Integer productId;
     private Integer quantita;
-    private String nome;
     private String colore;
-    private Double prezzo;
-    private Integer taglia;
-    private String imgScarpaCover;
+    private String taglia;
 
     @ManyToOne()
     @JoinColumn(name = "scarpa_id")
@@ -29,7 +24,7 @@ public class CartItem {
     private Shoe scarpa;
 
     @ManyToOne()
-    @JoinColumn(name = "utente_id", nullable = true)
+    @JoinColumn(name = "utente_id")
     @ToString.Exclude
     private User utente;
 }
