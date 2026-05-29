@@ -27,7 +27,7 @@ public class CartItemController {
     }
 
     @PostMapping
-    public ResponseEntity<CartItem> addNewItem(@RequestBody CartItemDTO itemToAdd){
+    public ResponseEntity<CartItemDTO> addNewItem(@RequestBody CartItemDTO itemToAdd){
         return ResponseEntity.ok(cartItemService.addCartItem(itemToAdd));
     }
 

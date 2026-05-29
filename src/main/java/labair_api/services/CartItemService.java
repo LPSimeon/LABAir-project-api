@@ -32,7 +32,7 @@ public class CartItemService {
         return cartItemRepository.findByUtenteId(id);
     }
 
-    public CartItem addCartItem(CartItemDTO itemDTO) {
+    public CartItemDTO addCartItem(CartItemDTO itemDTO) {
         if (cartItemRepository.existsById(itemDTO.getId())) {
             throw new ExistingShoeException();
         }
@@ -41,7 +41,7 @@ public class CartItemService {
 
         itemToAdd.setId(itemDTO.getId());
         itemToAdd.setQuantita(itemDTO.getQuantita());
-        itemToAdd.setColore(itemDTO.getColore());
+        itemToAdd.setColore(itemDTO.getColore().toLowerCase());
         itemToAdd.setTaglia(itemDTO.getTaglia());
 
         if(itemDTO.getScarpaId() != null){
@@ -49,8 +49,8 @@ public class CartItemService {
             scarpa.setId(itemDTO.getScarpaId());
             itemToAdd.setScarpa(scarpa);
         }
-
-        return cartItemRepository.save(itemToAdd);
+        cartItemRepository.save(itemToAdd);
+        return itemDTO;
     }
 
     public CartItem updateCartItemQuantity(String id, CartItemDTO item) {
@@ -76,7 +76,7 @@ public class CartItemService {
 
         convertedItem.setId(item.getId());
         convertedItem.setQuantita(item.getQuantita());
-        convertedItem.setColore(item.getColore());
+        convertedItem.setColore(item.getColore().toUpperCase());
         convertedItem.setTaglia(item.getTaglia());
 
         if (item.getScarpa() != null) {
