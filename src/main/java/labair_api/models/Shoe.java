@@ -34,6 +34,5 @@ public class Shoe {
     private List<ImageColor> immaginiScarpa;
 
     private Boolean nuoviArrivi;
-
     private Integer bestSeller;
 }

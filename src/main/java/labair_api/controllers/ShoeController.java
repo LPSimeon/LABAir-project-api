@@ -1,5 +1,6 @@
 package labair_api.controllers;
 
+import labair_api.dto.ShoeDTO;
 import labair_api.models.Shoe;
 import labair_api.services.ShoeService;
 import org.springframework.http.HttpStatus;
@@ -21,18 +22,17 @@ public class ShoeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Shoe>> getAllShoes(
+    public ResponseEntity<List<ShoeDTO>> getAllShoes(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String sortBy) {
 
         if (category != null || sortBy != null) {
-            return ResponseEntity.ok(shoeService.getShoesByFilters(category, sortBy));
+            return ResponseEntity.ok(shoeService.findShoesByFilters(category, sortBy));
         }
         return ResponseEntity.ok(shoeService.findAllShoes());
     }
 
-    // Funziona ma gestire gli spazi
-    @GetMapping("/{nome}")
+    @GetMapping("/{shoeName}")
     ResponseEntity<Shoe> getShoeByNome(@PathVariable String shoeName) {
         return ResponseEntity.ok(shoeService.findShoeByNome(shoeName));
     }
