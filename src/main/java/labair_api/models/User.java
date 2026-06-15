@@ -21,15 +21,18 @@ public class User {
     private String password;
     private String nome;
     private String cognome;
-    private String indirizzo;
-    private String cap;
-    private String citta;
-    private String paese;
-    private String telefono;
-
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
-    private List<Order> ordini;
-
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> carrello;
+//    private String indirizzo;
+//    private String cap;
+//    private String citta;
+//    private String paese;
+//    private String telefono;
+    private String giorno;
+    private String mese;
+    private String anno;
+//
+//    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+//    private List<Order> ordini;
+//
+//    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<CartItem> carrello;
 }
