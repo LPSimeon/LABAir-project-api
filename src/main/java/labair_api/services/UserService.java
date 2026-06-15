@@ -4,13 +4,14 @@ import labair_api.dto.UserDTO;
 import labair_api.exceptions.ExistingUserException;
 import labair_api.models.User;
 import labair_api.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) { this.userRepository = userRepository; }
+    private final BCryptPasswordEncoder encoder;
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) { this.userRepository = userRepository; this.encoder = encoder; }
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow();
@@ -41,8 +42,11 @@ public class UserService {
 
         convertedUser.setId(user.getId());
         convertedUser.setNome(user.getNome());
+        convertedUser.setCognome(user.getCognome());
         convertedUser.setEmail(user.getEmail());
-        convertedUser.setPassword(user.getPassword());
+
+        convertedUser.setPassword(encoder.encode(user.getPassword()));
+
         convertedUser.setGiorno(user.getGiorno());
         convertedUser.setMese(user.getMese());
         convertedUser.setAnno(user.getAnno());
