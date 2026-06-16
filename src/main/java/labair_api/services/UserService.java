@@ -48,6 +48,30 @@ public class UserService {
         return convertToDTO(userFound);
     }
 
+    public User updateUserById(Long id, UserDTO userDTO) {
+        User userFound = userRepository.findById(userDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con id: " +  id));
+
+        userFound.setNome(userDTO.getNome());
+        userFound.setCognome(userDTO.getCognome());
+        userFound.setEmail(userDTO.getEmail());
+        userFound.setPassword(encoder.encode(userDTO.getPassword()));
+        userFound.setGiorno(userDTO.getGiorno());
+        userFound.setMese(userDTO.getMese());
+        userFound.setAnno(userDTO.getAnno());
+
+
+        return userRepository.save(userFound);
+    }
+
+    public boolean removeUser(Long id){
+        if(!userRepository.existsById(id)) {
+            return false;
+        }
+
+        userRepository.deleteById(id);
+        return true;
+    }
+
     public UserDTO convertToDTO(User user) {
         if (user == null) return null;
 
