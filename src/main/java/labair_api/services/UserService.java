@@ -2,6 +2,7 @@ package labair_api.services;
 
 import labair_api.dto.UserDTO;
 import labair_api.exceptions.ExistingUserException;
+import labair_api.exceptions.InvalidPasswordException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.User;
 import labair_api.repositories.UserRepository;
@@ -44,6 +45,10 @@ public class UserService {
         User userFound = userRepository.findByEmail(userDTO.getEmail());
 
         boolean loginSuccess = encoder.matches(userDTO.getPassword(), userFound.getPassword());
+
+        if(!loginSuccess){
+            throw new InvalidPasswordException();
+        }
 
         return convertToDTO(userFound);
     }

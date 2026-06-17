@@ -25,9 +25,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
-    @PostMapping
+    @PostMapping("/register")
     ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.addUser(userDTO));
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<UserDTO> loginUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.loginUser(userDTO));
     }
 
     @PatchMapping("/{userId}")
