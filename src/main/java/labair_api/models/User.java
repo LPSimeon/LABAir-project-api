@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,7 @@ public class User {
 //    private String cap;
 //    private String citta;
 //    private String paese;
-//    private String telefono;
-    private String giorno;
-    private String mese;
-    private String anno;
+    private LocalDate dataNascita;
 //
 //    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
 //    private List<Order> ordini;

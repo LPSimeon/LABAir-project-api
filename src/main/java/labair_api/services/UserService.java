@@ -32,10 +32,8 @@ public class UserService {
         userToAdd.setNome(userDTO.getNome());
         userToAdd.setCognome(userDTO.getCognome());
         userToAdd.setEmail(userDTO.getEmail());
+        userToAdd.setDataNascita(userDTO.getDataNascita());
         userToAdd.setPassword(encoder.encode(userDTO.getPassword()));
-        userToAdd.setGiorno(userDTO.getGiorno());
-        userToAdd.setMese(userDTO.getMese());
-        userToAdd.setAnno(userDTO.getAnno());
 
         userRepository.save(userToAdd);
         return userDTO;
@@ -43,6 +41,10 @@ public class UserService {
 
     public UserDTO loginUser(UserDTO userDTO) {
         User userFound = userRepository.findByEmail(userDTO.getEmail());
+
+        if(userFound == null){
+            throw new ResourceNotFoundException("Utente non trovato");
+        }
 
         boolean loginSuccess = encoder.matches(userDTO.getPassword(), userFound.getPassword());
 
@@ -60,10 +62,7 @@ public class UserService {
         userFound.setCognome(userDTO.getCognome());
         userFound.setEmail(userDTO.getEmail());
         userFound.setPassword(encoder.encode(userDTO.getPassword()));
-        userFound.setGiorno(userDTO.getGiorno());
-        userFound.setMese(userDTO.getMese());
-        userFound.setAnno(userDTO.getAnno());
-
+        userFound.setDataNascita(userDTO.getDataNascita());
 
         return userRepository.save(userFound);
     }
@@ -86,12 +85,9 @@ public class UserService {
         convertedUser.setNome(user.getNome());
         convertedUser.setCognome(user.getCognome());
         convertedUser.setEmail(user.getEmail());
+        convertedUser.setDataNascita(user.getDataNascita());
 
         convertedUser.setPassword(user.getPassword());
-
-        convertedUser.setGiorno(user.getGiorno());
-        convertedUser.setMese(user.getMese());
-        convertedUser.setAnno(user.getAnno());
 
         return convertedUser;
     }
