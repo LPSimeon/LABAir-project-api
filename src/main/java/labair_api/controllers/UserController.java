@@ -1,5 +1,6 @@
 package labair_api.controllers;
 
+import labair_api.dto.LoginDTO;
 import labair_api.dto.UserDTO;
 import labair_api.models.User;
 import labair_api.services.UserService;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<UserDTO> loginUser(@RequestBody UserDTO userDTO) {
+    ResponseEntity<UserDTO> loginUser(@RequestBody LoginDTO userDTO) {
         return ResponseEntity.ok(userService.loginUser(userDTO));
     }
 

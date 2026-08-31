@@ -1,5 +1,6 @@
 package labair_api.services;
 
+import labair_api.dto.LoginDTO;
 import labair_api.dto.UserDTO;
 import labair_api.exceptions.ExistingUserException;
 import labair_api.exceptions.InvalidPasswordException;
@@ -39,7 +40,7 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO loginUser(UserDTO userDTO) {
+    public UserDTO loginUser(LoginDTO userDTO) {
         User userFound = userRepository.findByEmail(userDTO.getEmail());
 
         if(userFound == null){
