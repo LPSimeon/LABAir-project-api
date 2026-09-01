@@ -43,13 +43,13 @@ public class UserService {
     public UserDTO loginUser(LoginDTO userDTO) {
         User userFound = userRepository.findByEmail(userDTO.getEmail());
 
-        if(userFound == null){
+        if (userFound == null) {
             throw new ResourceNotFoundException("Utente non trovato");
         }
 
         boolean loginSuccess = encoder.matches(userDTO.getPassword(), userFound.getPassword());
 
-        if(!loginSuccess){
+        if (!loginSuccess) {
             throw new InvalidPasswordException();
         }
 
@@ -57,7 +57,7 @@ public class UserService {
     }
 
     public User updateUserById(Long id, UserDTO userDTO) {
-        User userFound = userRepository.findById(userDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con id: " +  id));
+        User userFound = userRepository.findById(userDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con id: " + id));
 
         userFound.setNome(userDTO.getNome());
         userFound.setCognome(userDTO.getCognome());
@@ -68,8 +68,8 @@ public class UserService {
         return userRepository.save(userFound);
     }
 
-    public boolean removeUser(Long id){
-        if(!userRepository.existsById(id)) {
+    public boolean removeUser(Long id) {
+        if (!userRepository.existsById(id)) {
             return false;
         }
 

@@ -42,7 +42,7 @@ public class UserController {
 
         Map<String, String> response = new HashMap<>();
 
-        if(updated != null){
+        if (updated != null) {
             response.put("code", "202 ACCEPTED");
             response.put("message", "Utente aggiornato con successo");
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);

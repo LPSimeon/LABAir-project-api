@@ -15,7 +15,9 @@ import java.util.List;
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
 
-    public CartItemService(CartItemRepository cartItemRepository) { this.cartItemRepository = cartItemRepository; }
+    public CartItemService(CartItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
+    }
 
     public List<CartItemDTO> findAllItems() {
         List<CartItem> items = cartItemRepository.findAll();
@@ -44,7 +46,7 @@ public class CartItemService {
         itemToAdd.setColore(itemDTO.getColore().toLowerCase());
         itemToAdd.setTaglia(itemDTO.getTaglia());
 
-        if(itemDTO.getScarpaId() != null){
+        if (itemDTO.getScarpaId() != null) {
             Shoe scarpa = new Shoe();
             scarpa.setId(itemDTO.getScarpaId());
             itemToAdd.setScarpa(scarpa);
@@ -61,7 +63,7 @@ public class CartItemService {
     }
 
     public boolean removeCartItem(String id) {
-        if(!cartItemRepository.existsById(id)) {
+        if (!cartItemRepository.existsById(id)) {
             return false;
         }
 
