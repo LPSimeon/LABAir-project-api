@@ -23,8 +23,8 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .nome(request.getFirstName())
-                .cognome(request.getLastName())
+                .nome(request.getNome())
+                .cognome(request.getCognome())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
@@ -44,6 +44,7 @@ public class AuthenticationService {
                 )
         );
         var user = userRepository.findByEmail(request.getEmail());
+        System.out.println("user: " + user);
         if (user == null) {
             throw new ResourceNotFoundException("Utente non trovato");
         }

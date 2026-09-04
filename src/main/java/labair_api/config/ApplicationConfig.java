@@ -23,7 +23,11 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
+            // System.out.println("USERNAME RICEVUTO: " + username);
+
             User user = userRepository.findByEmail(username);
+
+            // System.out.println("USER TROVATO: " + user);
 
             if (user == null) {
                 throw new UsernameNotFoundException("Utente non trovato");
@@ -46,7 +50,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    private PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
