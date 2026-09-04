@@ -23,8 +23,6 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            // System.out.println("USERNAME RICEVUTO: " + username);
-
             User user = userRepository.findByEmail(username);
 
             // System.out.println("USER TROVATO: " + user);
@@ -37,12 +35,7 @@ public class ApplicationConfig {
         };
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
+//    AuthenticationProvider Bean removed
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

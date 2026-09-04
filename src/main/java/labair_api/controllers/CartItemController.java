@@ -3,6 +3,7 @@ package labair_api.controllers;
 import labair_api.dto.CartItemDTO;
 import labair_api.models.CartItem;
 import labair_api.services.CartItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/carrello")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class CartItemController {
     private final CartItemService cartItemService;
-
-    public CartItemController(CartItemService cartItemService) {
-        this.cartItemService = cartItemService;
-    }
 
     @GetMapping
     public ResponseEntity<List<CartItemDTO>> getAllItems(){

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import labair_api.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(User user){
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("nome", user.getNome());
+        claims.put("cognome", user.getCognome());
+        return generateToken(claims, user);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){

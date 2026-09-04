@@ -3,6 +3,7 @@ package labair_api.controllers;
 import labair_api.dto.ShoeDTO;
 import labair_api.models.Shoe;
 import labair_api.services.ShoeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/scarpeList")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class ShoeController {
     private final ShoeService shoeService;
-
-    public ShoeController(ShoeService shoeService) {
-        this.shoeService = shoeService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ShoeDTO>> getAllShoes(
