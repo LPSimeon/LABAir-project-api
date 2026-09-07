@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/api/carrello")
 @CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1/carrello")
 @RequiredArgsConstructor
 public class CartItemController {
     private final CartItemService cartItemService;

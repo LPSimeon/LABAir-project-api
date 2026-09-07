@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/api/scarpeList")
 @CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1/scarpeList")
 @RequiredArgsConstructor
 public class ShoeController {
     private final ShoeService shoeService;
