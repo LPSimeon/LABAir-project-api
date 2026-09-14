@@ -70,7 +70,4 @@ public class User implements UserDetails {
 //
 //    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
 //    private List<Order> ordini;
-//
-//    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<CartItem> carrello;
 }

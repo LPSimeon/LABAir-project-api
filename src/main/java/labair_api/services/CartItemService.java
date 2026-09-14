@@ -5,39 +5,39 @@ import labair_api.exceptions.ExistingShoeException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.CartItem;
 import labair_api.models.Shoe;
+import labair_api.models.User;
 import labair_api.repositories.CartItemRepository;
+import labair_api.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
+    private final UserRepository userRepository;
 
-    public CartItemService(CartItemRepository cartItemRepository) {
-        this.cartItemRepository = cartItemRepository;
-    }
-
-    public List<CartItemDTO> findAllItems() {
-        List<CartItem> items = cartItemRepository.findAll();
+    public List<CartItemDTO> getCartByUserEmail(String email) {
+        User userFound = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
+        List<CartItem> userCart = this.cartItemRepository.findByUtenteId(userFound.getId());
         List<CartItemDTO> convertedItems = new ArrayList<>();
 
-        for (CartItem cartItem : items) {
-            convertedItems.add(convertToDTO(cartItem));
+        for (CartItem item : userCart) {
+            convertedItems.add(convertToDTO(item));
         }
 
         return convertedItems;
     }
 
-    public List<CartItem> getCartByUser(Long id) {
-        return cartItemRepository.findByUtenteId(id);
-    }
-
-    public CartItemDTO addCartItem(CartItemDTO itemDTO) {
+    public CartItemDTO addCartItem(CartItemDTO itemDTO,
+                                   String email) {
         if (cartItemRepository.existsById(itemDTO.getId())) {
             throw new ExistingShoeException();
         }
+        User userFound = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
 
         CartItem itemToAdd = new CartItem();
 
@@ -45,6 +45,7 @@ public class CartItemService {
         itemToAdd.setQuantita(itemDTO.getQuantita());
         itemToAdd.setColore(itemDTO.getColore().toLowerCase());
         itemToAdd.setTaglia(itemDTO.getTaglia());
+        itemToAdd.setUtente(userFound);
 
         if (itemDTO.getScarpaId() != null) {
             Shoe scarpa = new Shoe();
@@ -55,20 +56,25 @@ public class CartItemService {
         return itemDTO;
     }
 
-    public CartItem updateCartItemQuantity(String id, CartItemDTO item) {
-        CartItem existingItem = cartItemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Item non trovato con id: " + id));
+    public void updateCartItemQuantity(String id, CartItemDTO item, String email) {
+        User userFound = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
+        CartItem existingItem = cartItemRepository
+                .findByIdAndUtenteId(id, userFound.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Item non trovato con id: " + id));
+
         if (item.getQuantita() != null) existingItem.setQuantita(item.getQuantita());
 
-        return cartItemRepository.save(existingItem);
+        cartItemRepository.save(existingItem);
     }
 
-    public boolean removeCartItem(String id) {
-        if (!cartItemRepository.existsById(id)) {
-            return false;
-        }
+    public void removeCartItem(String id, String email) {
+        User userFound = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
 
-        cartItemRepository.deleteById(id);
-        return true;
+        CartItem existingItem = cartItemRepository.findByIdAndUtenteId(id, userFound.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Item non trovato con id: " + id));
+
+        cartItemRepository.delete(existingItem);
     }
 
     public CartItemDTO convertToDTO(CartItem item) {

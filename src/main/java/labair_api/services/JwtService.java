@@ -20,16 +20,16 @@ public class JwtService {
     // Key generated with online tool
     private static final String SECRET_KEY = "8fa065987c70bf8448250304a7d212b5d9dba23b1a877fced8761a9b17e418bc";
 
-    public String extractUsername(String token){
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(User user){
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("nome", user.getNome());
@@ -37,7 +37,7 @@ public class JwtService {
         return generateToken(claims, user);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
@@ -46,7 +46,7 @@ public class JwtService {
                 .signWith(getSignInKey(), Jwts.SIG.HS256).compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails){
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
@@ -59,7 +59,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token) {
         return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getPayload();
     }
 

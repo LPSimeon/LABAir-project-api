@@ -41,11 +41,7 @@ public class UserService {
     }
 
     public UserDTO loginUser(LoginDTO userDTO) {
-        User userFound = userRepository.findByEmail(userDTO.getEmail());
-
-        if (userFound == null) {
-            throw new ResourceNotFoundException("Utente non trovato");
-        }
+        User userFound = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
 
         boolean loginSuccess = encoder.matches(userDTO.getPassword(), userFound.getPassword());
 

@@ -24,15 +24,15 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
-    @PostMapping("/register")
-    ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.addUser(userDTO));
-    }
-
-    @PostMapping("/login")
-    ResponseEntity<UserDTO> loginUser(@RequestBody LoginDTO userDTO) {
-        return ResponseEntity.ok(userService.loginUser(userDTO));
-    }
+//    @PostMapping("/register")
+//    ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDTO) {
+//        return ResponseEntity.ok(userService.addUser(userDTO));
+//    }
+//
+//    @PostMapping("/login")
+//    ResponseEntity<UserDTO> loginUser(@RequestBody LoginDTO userDTO) {
+//        return ResponseEntity.ok(userService.loginUser(userDTO));
+//    }
 
     @PatchMapping("/{userId}")
     ResponseEntity<Map<String, String>> updateUser(@PathVariable Long userId, @RequestBody UserDTO selectedUser) {
