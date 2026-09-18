@@ -5,6 +5,8 @@ import labair_api.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -18,4 +20,15 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
+    public List<Order> findAllOrders(){
+        return orderRepository.findAll();
+    }
+
+    public boolean deleteOrderById(Long id){
+        if(orderRepository.existsById(id)){
+            orderRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
