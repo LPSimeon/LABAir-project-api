@@ -24,16 +24,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private PaymentMethod pagamento;
 
-    // private CartItem[] prodotti; mettere la relazione
     private Double totale;
 
     @ManyToOne
-    @JoinColumn(name = "utente_id")
+    @JoinColumn(name = "utente_id", nullable = false)
     @ToString.Exclude
     private User utente;
 
+    @OneToOne(mappedBy = "ordine", cascade = CascadeType.ALL)
+    private ShippingData datiSpedizione;
+
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
     private List<OrderDetails> dettagli;
-
-    // Mettere la relazione con CartItem
 }

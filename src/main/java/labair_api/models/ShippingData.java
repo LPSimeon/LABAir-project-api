@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "dati_spedizione")
@@ -23,4 +24,9 @@ public class ShippingData {
     private String citta;
     private String paese;
     private String tel;
+
+    @OneToOne
+    @JoinColumn(name = "ordine_id", nullable = false)
+    @ToString.Exclude
+    private Order ordine;
 }
