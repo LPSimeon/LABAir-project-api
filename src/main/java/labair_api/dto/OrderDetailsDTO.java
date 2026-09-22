@@ -1,10 +1,6 @@
 package labair_api.dto;
 
-import jakarta.persistence.*;
-import labair_api.models.Order;
-import labair_api.models.Shoe;
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 public class OrderDetailsDTO {

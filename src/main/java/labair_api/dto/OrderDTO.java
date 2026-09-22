@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class OrderResponseDTO {
+public class OrderDTO {
     private String id;
     private ShippingDataDTO datiSpedizione;
     private PaymentMethod metodoPagamento;

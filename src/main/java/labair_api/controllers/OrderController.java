@@ -1,5 +1,6 @@
 package labair_api.controllers;
 
+import labair_api.dto.OrderDTO;
 import labair_api.models.Order;
 import labair_api.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +24,9 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order, Authentication auth) {
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO order, Authentication auth) {
         String userEmail = auth.getName();
         return ResponseEntity.ok(orderService.createOrder(order, userEmail));
-    }
-
-    @PatchMapping("/{orderId}")
-    public ResponseEntity<Order> updateOrder(@PathVariable String orderId, @RequestBody Order modifiedOrder, Authentication auth) {
-        String userEmail = auth.getName();
-        return ResponseEntity.ok(orderService.updateOrderById(orderId, modifiedOrder, userEmail));
     }
 
     @DeleteMapping("/{orderId}")

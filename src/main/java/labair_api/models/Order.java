@@ -20,11 +20,10 @@ public class Order {
     private String id;
 
     private LocalDateTime dataOrdine;
+    private Double totale;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod pagamento;
-
-    private Double totale;
 
     @ManyToOne
     @JoinColumn(name = "utente_id", nullable = false)
