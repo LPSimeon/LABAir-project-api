@@ -1,6 +1,7 @@
 package labair_api.models;
 
 import jakarta.persistence.*;
+import labair_api.models.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,7 +68,7 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
-//
-//    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
-//    private List<Order> ordini;
+
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Order> ordini;
 }

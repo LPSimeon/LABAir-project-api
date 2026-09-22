@@ -22,6 +22,7 @@ public class OrderDetails {
     private String taglia;
     private String colore;
 
+    // Mettere FecthType.LAZY
     @ManyToOne
     @JoinColumn(name = "ordine_id")
     @ToString.Exclude

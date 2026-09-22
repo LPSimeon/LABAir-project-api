@@ -1,6 +1,7 @@
 package labair_api.models;
 
 import jakarta.persistence.*;
+import labair_api.models.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,13 @@ import java.util.List;
 @Data
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private LocalDateTime dataOrdine;
-    // private PaymentData pagamento;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod pagamento;
+
     // private CartItem[] prodotti; mettere la relazione
     private Double totale;
 

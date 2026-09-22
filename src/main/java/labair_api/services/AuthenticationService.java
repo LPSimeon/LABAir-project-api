@@ -4,7 +4,7 @@ import labair_api.config.AuthenticationRequest;
 import labair_api.config.AuthenticationResponse;
 import labair_api.config.RegisterRequest;
 import labair_api.exceptions.ResourceNotFoundException;
-import labair_api.models.Role;
+import labair_api.models.enums.Role;
 import labair_api.models.User;
 import labair_api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
