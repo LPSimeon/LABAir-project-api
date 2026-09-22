@@ -1,6 +1,7 @@
 package labair_api.services;
 
 import labair_api.dto.CartItemDTO;
+import labair_api.dto.CreateOrderDTO;
 import labair_api.dto.OrderDTO;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.*;
@@ -10,6 +11,7 @@ import labair_api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class OrderService {
     private final CartItemService cartItemRepository;
     private final ShoeRepository shoeRepository;
 
-    public Order createOrder(OrderDTO order, String email) {
+    public OrderDTO createOrder(CreateOrderDTO order, String email) {
         User userFound = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
 
@@ -31,9 +33,8 @@ public class OrderService {
         Order orderToAdd = new Order();
 
         orderToAdd.setId(order.getId());
-        orderToAdd.setDataOrdine(order.getDataOrdine());
-        orderToAdd.setTotale(order.getTotale());
-        orderToAdd.setPagamento(order.getMetodoPagamento());
+        orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
+        orderToAdd.setPagamento(order.getPagamento());
         orderToAdd.setUtente(userFound);
 
         List<OrderDetails> details = new ArrayList<>();
@@ -56,15 +57,17 @@ public class OrderService {
 
         orderToAdd.setTotale(totale);
         orderToAdd.setDettagli(details);
-
-        return orderRepository.save(orderToAdd); // provare a mettere il convertToDTO
+        orderRepository.save(orderToAdd);
+        return convertToDTO(orderToAdd); // provare a mettere il convertToDTO
     }
 
-    public Order findById(String id, String email) {
+    public OrderDTO findById(String id, String email) {
         User userFound = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
 
-        return orderRepository.findById(id).orElse(null);
+        Order orderFound =orderRepository.findById(id).orElse(null);
+
+        return convertToDTO(orderFound);
     }
 
     public List<Order> getOrdersByUserEmail(String email) {

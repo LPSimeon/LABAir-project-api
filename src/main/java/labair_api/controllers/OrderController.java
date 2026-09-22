@@ -1,6 +1,8 @@
 package labair_api.controllers;
 
+import labair_api.dto.CreateOrderDTO;
 import labair_api.dto.OrderDTO;
+import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.Order;
 import labair_api.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByUserEmail(userEmail));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderDTO> getOrderById(Authentication auth, @PathVariable String id){
+        String userEmail = auth.getName();
+        return ResponseEntity.ok(orderService.findById(id, userEmail));
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO order, Authentication auth) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody CreateOrderDTO order, Authentication auth) {
+        if(order == null){
+            throw new ResourceNotFoundException("Order non trovato");
+        }
+
         String userEmail = auth.getName();
         return ResponseEntity.ok(orderService.createOrder(order, userEmail));
     }

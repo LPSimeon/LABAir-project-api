@@ -13,5 +13,5 @@ public class OrderDTO {
     private PaymentMethod metodoPagamento;
     private List<OrderDetailsDTO> dettagli;
     private Double totale;
-    private LocalDateTime dataOrdine;
+    private String dataOrdine; // Per adesso a stringa
 }

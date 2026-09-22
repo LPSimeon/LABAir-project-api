@@ -19,7 +19,7 @@ public class Order {
     @Id
     private String id;
 
-    private LocalDateTime dataOrdine;
+    private String dataOrdine;
     private Double totale;
 
     @Enumerated(EnumType.STRING)
