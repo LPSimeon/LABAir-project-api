@@ -24,7 +24,7 @@ public class OrderDetails {
 
     // Mettere FecthType.LAZY
     @ManyToOne
-    @JoinColumn(name = "ordine_id")
+    @JoinColumn(name = "ordine_id", nullable = false)
     @ToString.Exclude
     private Order ordine;
 

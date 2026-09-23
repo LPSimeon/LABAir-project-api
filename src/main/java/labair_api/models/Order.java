@@ -30,7 +30,7 @@ public class Order {
     @ToString.Exclude
     private User utente;
 
-    @OneToOne(mappedBy = "ordine", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShippingData datiSpedizione;
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)

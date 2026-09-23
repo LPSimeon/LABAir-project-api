@@ -1,8 +1,6 @@
 package labair_api.services;
 
-import labair_api.dto.CartItemDTO;
-import labair_api.dto.CreateOrderDTO;
-import labair_api.dto.OrderDTO;
+import labair_api.dto.*;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.*;
 import labair_api.repositories.OrderRepository;
@@ -35,6 +33,13 @@ public class OrderService {
         orderToAdd.setId(order.getId());
         orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
         orderToAdd.setPagamento(order.getPagamento());
+        ShippingData shippingData = order.getDatiSpedizione();
+
+        if (shippingData != null) {
+            shippingData.setOrdine(orderToAdd);
+            orderToAdd.setDatiSpedizione(shippingData);
+        }
+
         orderToAdd.setUtente(userFound);
 
         List<OrderDetails> details = new ArrayList<>();
@@ -57,6 +62,8 @@ public class OrderService {
 
         orderToAdd.setTotale(totale);
         orderToAdd.setDettagli(details);
+
+
         orderRepository.save(orderToAdd);
         return convertToDTO(orderToAdd); // provare a mettere il convertToDTO
     }
@@ -94,6 +101,44 @@ public class OrderService {
         convertedOrder.setDataOrdine(orderToConvert.getDataOrdine());
         convertedOrder.setTotale(orderToConvert.getTotale());
         convertedOrder.setMetodoPagamento(orderToConvert.getPagamento());
+
+        ShippingData shippingData = orderToConvert.getDatiSpedizione();
+
+        if (shippingData != null) {
+            ShippingDataDTO shippingDTO = new ShippingDataDTO();
+
+            shippingDTO.setEmail(shippingData.getEmail());
+            shippingDTO.setNome(shippingData.getNome());
+            shippingDTO.setCognome(shippingData.getCognome());
+            shippingDTO.setIndirizzo(shippingData.getIndirizzo());
+            shippingDTO.setCap(shippingData.getCap());
+            shippingDTO.setCitta(shippingData.getCitta());
+            shippingDTO.setPaese(shippingData.getPaese());
+            shippingDTO.setTel(shippingData.getTel());
+
+            convertedOrder.setDatiSpedizione(shippingDTO);
+        }
+
+        // Dettagli ordine
+        List<OrderDetailsDTO> dettagli = orderToConvert.getDettagli()
+                .stream()
+                .map(detail -> {
+
+                    OrderDetailsDTO detailDTO = new OrderDetailsDTO();
+
+                    detailDTO.setId(detail.getId());
+                    detailDTO.setScarpaId(detail.getScarpa().getId());
+                    detailDTO.setOrdineId(detail.getOrdine().getId());
+                    detailDTO.setPrezzoUnitario(detail.getPrezzoUnitario());
+                    detailDTO.setQuantita(detail.getQuantita());
+                    detailDTO.setTaglia(detail.getTaglia());
+                    detailDTO.setColore(detail.getColore());
+
+                    return detailDTO;
+                })
+                .toList();
+
+        convertedOrder.setDettagli(dettagli);
 
         return convertedOrder;
     }

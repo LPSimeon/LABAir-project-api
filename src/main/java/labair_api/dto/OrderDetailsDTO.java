@@ -6,6 +6,7 @@ import lombok.Data;
 public class OrderDetailsDTO {
     private Long id;
     private Long scarpaId;
+    private String ordineId;
     private Double prezzoUnitario;
     private Integer quantita;
     private String taglia;
