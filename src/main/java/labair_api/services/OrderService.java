@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,16 @@ public class OrderService {
 
         Order orderToAdd = new Order();
 
-        orderToAdd.setId(order.getId());
+        String iniziali =
+                order.getDatiSpedizione().getNome().substring(0, 1).toLowerCase()
+                        + order.getDatiSpedizione().getCognome().substring(0, 1).toLowerCase();
+
+        String codice = UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+
+        orderToAdd.setId("ordine-" + iniziali + "-" + codice);
         orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
         orderToAdd.setPagamento(order.getPagamento());
         ShippingData shippingData = order.getDatiSpedizione();
