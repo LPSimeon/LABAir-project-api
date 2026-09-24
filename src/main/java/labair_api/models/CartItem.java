@@ -18,12 +18,12 @@ public class CartItem {
     private String colore;
     private String taglia;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scarpa_id")
     @ToString.Exclude
     private Shoe scarpa;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utente_id")
     @ToString.Exclude
     private User utente;

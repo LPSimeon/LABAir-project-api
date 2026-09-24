@@ -22,13 +22,12 @@ public class OrderDetails {
     private String taglia;
     private String colore;
 
-    // Mettere FecthType.LAZY
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordine_id", nullable = false)
     @ToString.Exclude
     private Order ordine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scarpa_id")
     @ToString.Exclude
     private Shoe scarpa;

@@ -102,6 +102,7 @@ public class OrderService {
         convertedOrder.setTotale(orderToConvert.getTotale());
         convertedOrder.setMetodoPagamento(orderToConvert.getPagamento());
 
+        // dati_spedizione
         ShippingData shippingData = orderToConvert.getDatiSpedizione();
 
         if (shippingData != null) {
@@ -119,7 +120,7 @@ public class OrderService {
             convertedOrder.setDatiSpedizione(shippingDTO);
         }
 
-        // Dettagli ordine
+        // dettagli
         List<OrderDetailsDTO> dettagli = orderToConvert.getDettagli()
                 .stream()
                 .map(detail -> {
