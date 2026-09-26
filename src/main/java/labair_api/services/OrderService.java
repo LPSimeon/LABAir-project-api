@@ -31,6 +31,7 @@ public class OrderService {
 
         Order orderToAdd = new Order();
 
+        // to create the order id
         String iniziali =
                 order.getDatiSpedizione().getNome().substring(0, 1).toLowerCase()
                         + order.getDatiSpedizione().getCognome().substring(0, 1).toLowerCase();
@@ -40,7 +41,9 @@ public class OrderService {
                 .substring(0, 8)
                 .toUpperCase();
 
-        orderToAdd.setId("ordine-" + iniziali + "-" + codice);
+        orderToAdd.setId(iniziali + "-" + codice);
+        System.out.println("Order ID: " + orderToAdd.getId());
+
         orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
         orderToAdd.setPagamento(order.getPagamento());
         ShippingData shippingData = order.getDatiSpedizione();
@@ -55,7 +58,7 @@ public class OrderService {
         List<OrderDetails> details = new ArrayList<>();
 
         for (CartItemDTO cartItem : cartItems) {
-            Shoe shoe = shoeRepository.findById(cartItem.getScarpaId()).orElseThrow(()-> new ResourceNotFoundException("Scarpa non trovata con id: " +  cartItem.getScarpaId()));
+            Shoe shoe = shoeRepository.findById(cartItem.getScarpaId()).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + cartItem.getScarpaId()));
 
             OrderDetails detail = new OrderDetails();
             detail.setOrdine(orderToAdd);
@@ -82,7 +85,7 @@ public class OrderService {
         User userFound = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
 
-        Order orderFound =orderRepository.findById(id).orElse(null);
+        Order orderFound = orderRepository.findById(id).orElse(null);
 
         return convertToDTO(orderFound);
     }
@@ -94,16 +97,16 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public boolean deleteOrderById(String id){
-        if(orderRepository.existsById(id)){
+    public void deleteOrderById(String id) {
+        if (orderRepository.existsById(id)) {
             orderRepository.deleteById(id);
-            return true;
         }
-        return false;
     }
 
-    public OrderDTO convertToDTO(Order orderToConvert){
-        if(orderToConvert == null){ return null; }
+    public OrderDTO convertToDTO(Order orderToConvert) {
+        if (orderToConvert == null) {
+            return null;
+        }
 
         OrderDTO convertedOrder = new OrderDTO();
 

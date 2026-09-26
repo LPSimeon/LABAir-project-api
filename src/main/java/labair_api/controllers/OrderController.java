@@ -6,11 +6,14 @@ import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.Order;
 import labair_api.services.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -42,8 +45,14 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<Boolean> deleteOrder(@PathVariable String orderId, Authentication auth) {
+    public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable String orderId, Authentication auth) {
         String userEmail = auth.getName();
-        return ResponseEntity.ok(orderService.deleteOrderById(orderId));
+        orderService.deleteOrderById(orderId);
+
+        Map<String, String> response = new HashMap<>();
+
+        response.put("code", "202 ACCEPTED");
+        response.put("message", "Ordine eliminato");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 }
