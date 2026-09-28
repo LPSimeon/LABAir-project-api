@@ -26,9 +26,12 @@ public class Order {
     private PaymentMethod pagamento;
 
     @ManyToOne
-    @JoinColumn(name = "utente_id", nullable = false)
+    @JoinColumn(name = "utente_id")
     @ToString.Exclude
     private User utente;
+
+    @Column(name = "order_access_token", unique = true)
+    private String orderAccessToken;
 
     @OneToOne(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
     private ShippingData datiSpedizione;

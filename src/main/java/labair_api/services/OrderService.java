@@ -23,13 +23,27 @@ public class OrderService {
     private final ShoeRepository shoeRepository;
 
     public OrderDTO createOrder(CreateOrderDTO order, String email) {
-        User userFound = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
-
-        List<CartItemDTO> cartItems = cartItemRepository.getCartByUserEmail(userFound.getEmail());
-        double totale = 0;
-
         Order orderToAdd = new Order();
+        List<CartItemDTO> cartItems;
+
+        if (email != null) {
+            User userFound = userRepository.findByEmail(email)
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException(
+                                    "Utente non trovato con email: " + email
+                            ));
+
+            orderToAdd.setUtente(userFound);
+            cartItems = cartItemRepository.getCartByUserEmail(userFound.getEmail());
+        } else {
+            String orderAccessToken = UUID.randomUUID().toString().substring(0, 4);
+            orderToAdd.setOrderAccessToken(orderAccessToken);
+
+            orderToAdd.setUtente(null);
+            cartItems = order.getCartItems();
+        }
+
+        double totale = 0;
 
         // to create the order id
         String iniziali =
@@ -53,8 +67,6 @@ public class OrderService {
             orderToAdd.setDatiSpedizione(shippingData);
         }
 
-        orderToAdd.setUtente(userFound);
-
         List<OrderDetails> details = new ArrayList<>();
 
         for (CartItemDTO cartItem : cartItems) {
@@ -75,7 +87,6 @@ public class OrderService {
 
         orderToAdd.setTotale(totale);
         orderToAdd.setDettagli(details);
-
 
         orderRepository.save(orderToAdd);
         return convertToDTO(orderToAdd); // provare a mettere il convertToDTO
