@@ -92,20 +92,46 @@ public class OrderService {
         return convertToDTO(orderToAdd); // provare a mettere il convertToDTO
     }
 
-    public OrderDTO findById(String id, String email) {
-        User userFound = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
+    public OrderDTO findById(String id, String email, String orderAccessToken) {
 
-        Order orderFound = orderRepository.findById(id).orElse(null);
+        Order orderFound;
+
+        if (email != null) {
+
+            orderFound = orderRepository
+                    .findByIdAndUtente_Email(id, email)
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException(
+                                    "Ordine non trovato con id: " + id
+                            )
+                    );
+
+        } else if (orderAccessToken != null) {
+
+            orderFound = orderRepository
+                    .findByIdAndOrderAccessToken(id, orderAccessToken)
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException(
+                                    "Ordine non trovato con id: " + id
+                            )
+                    );
+
+        } else {
+            throw new ResourceNotFoundException("Credenziali ordine mancanti");
+        }
 
         return convertToDTO(orderFound);
     }
 
-    public List<Order> getOrdersByUserEmail(String email) {
-        User userFound = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato con email: " + email));
+    public List<OrderDTO> getAllOrders(String email) {
+        List<Order> orders = orderRepository.findAllByUtente_Email(email);
+        List<OrderDTO> convertedOrders = new ArrayList<>();
 
-        return orderRepository.findAll();
+        for (Order order : orders) {
+            convertedOrders.add(convertToDTO(order));
+        }
+
+        return convertedOrders;
     }
 
     public void deleteOrderById(String id) {

@@ -3,7 +3,6 @@ package labair_api.controllers;
 import labair_api.dto.CreateOrderDTO;
 import labair_api.dto.OrderDTO;
 import labair_api.exceptions.ResourceNotFoundException;
-import labair_api.models.Order;
 import labair_api.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,24 +22,26 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders(Authentication auth){
+    public ResponseEntity<List<OrderDTO>> getAllOrders(Authentication auth) {
         String userEmail = auth.getName();
-        return ResponseEntity.ok(orderService.getOrdersByUserEmail(userEmail));
+
+        return ResponseEntity.ok(orderService.getAllOrders(userEmail));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> getOrderById(Authentication auth, @PathVariable String id){
-        String userEmail = auth.getName();
-        return ResponseEntity.ok(orderService.findById(id, userEmail));
+    public ResponseEntity<OrderDTO> getOrderById(Authentication auth, @PathVariable String id, @RequestParam(required = false) String orderAccessToken) {
+        String userEmail = auth != null ? auth.getName() : null;
+
+        return ResponseEntity.ok(orderService.findById(id, userEmail, orderAccessToken));
     }
 
     @PostMapping("/create")
     public ResponseEntity<OrderDTO> createOrder(@RequestBody CreateOrderDTO order, Authentication auth) {
-        if(order == null){
+        if (order == null) {
             throw new ResourceNotFoundException("Order non trovato");
         }
+        String userEmail = auth != null ? auth.getName() : null;
 
-        String userEmail = auth.getName();
         return ResponseEntity.ok(orderService.createOrder(order, userEmail));
     }
 
