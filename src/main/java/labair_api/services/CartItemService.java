@@ -85,17 +85,18 @@ public class CartItemService {
 
         convertedItem.setId(item.getId());
         convertedItem.setQuantita(item.getQuantita());
-        convertedItem.setColore(item.getColore().toUpperCase());
         convertedItem.setTaglia(item.getTaglia());
+
+        // In order to have the shoe color with the first letter capitalized
+        convertedItem.setColore(item.getColore().substring(0, 1).toUpperCase() + item.getColore().substring(1));
 
         if (item.getScarpa() != null) {
             convertedItem.setScarpaId(item.getScarpa().getId());
             convertedItem.setNome(item.getScarpa().getNome());
             convertedItem.setPrezzo(item.getScarpa().getPrezzo());
-
             String imgCover = item.getScarpa().getImmaginiScarpa()
                     .stream()
-                    .filter(img -> img.getColore().equals(item.getColore()))
+                    .filter(img -> img.getColore().equalsIgnoreCase(item.getColore()))
                     .filter(img -> !img.getUrls().isEmpty())
                     .findFirst()
                     .map(img -> img.getUrls().get(0))
