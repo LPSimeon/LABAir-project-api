@@ -4,6 +4,7 @@ import labair_api.dto.CartItemDTO;
 import labair_api.exceptions.ExistingShoeException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.CartItem;
+import labair_api.models.ImageColor;
 import labair_api.models.Shoe;
 import labair_api.models.User;
 import labair_api.repositories.CartItemRepository;
@@ -91,7 +92,16 @@ public class CartItemService {
             convertedItem.setScarpaId(item.getScarpa().getId());
             convertedItem.setNome(item.getScarpa().getNome());
             convertedItem.setPrezzo(item.getScarpa().getPrezzo());
-            convertedItem.setImgScarpaCover(item.getScarpa().getImmagineCover());
+
+            String imgCover = item.getScarpa().getImmaginiScarpa()
+                    .stream()
+                    .filter(img -> img.getColore().equals(item.getColore()))
+                    .filter(img -> !img.getUrls().isEmpty())
+                    .findFirst()
+                    .map(img -> img.getUrls().get(0))
+                    .orElse(item.getScarpa().getImmagineCover());
+
+            convertedItem.setImgScarpaCover(imgCover);
         }
 
         return convertedItem;
