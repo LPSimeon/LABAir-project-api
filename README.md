@@ -18,7 +18,7 @@ What dependencies I used for the project?
 5. `MySQL Driver` (In order to communicate with MySQL Server)
 6. `JJWT (API + Impl + Jackson)` (In order to add jwt validation to logged user)
 
-How I'm configuring the database? I added in `application.properties` the following configuration:
+How I'm configuring the database? I added in `application.properties` the following configurations:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/labair_db?\
@@ -53,7 +53,7 @@ src/main/java/labair_api/
 ├── config/          # ApplicationConfig
 ├── controllers/     
 ├── dto/             
-├── exceptions/      # Created some custom exception
+├── exceptions/      # Created some custom exceptions
 ├── models/          # JPA Entities
 ├── repositories/    # Spring Data JPA Interfaces 
 ├── security/        # JwtAuthentication, JwtService and SecurityConfig
@@ -94,7 +94,7 @@ In order to test the endpoints, please use GUI clients like Insomnia, Postman, e
 > Before running the project, make sure you have MySQL Server in running
 
 
-##### Passi
+### Endpoints
 
 By running the project, we have access to the following endpoints:
 
