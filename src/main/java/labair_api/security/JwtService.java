@@ -1,4 +1,4 @@
-package labair_api.services;
+package labair_api.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package labair_api.config;
+package labair_api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

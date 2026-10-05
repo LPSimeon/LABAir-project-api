@@ -4,7 +4,6 @@ import labair_api.dto.CartItemDTO;
 import labair_api.exceptions.ExistingShoeException;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.CartItem;
-import labair_api.models.ImageColor;
 import labair_api.models.Shoe;
 import labair_api.models.User;
 import labair_api.repositories.CartItemRepository;

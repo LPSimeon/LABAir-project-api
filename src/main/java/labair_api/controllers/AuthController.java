@@ -1,8 +1,8 @@
 package labair_api.controllers;
 
-import labair_api.config.AuthenticationRequest;
-import labair_api.config.AuthenticationResponse;
-import labair_api.config.RegisterRequest;
+import labair_api.dto.AuthenticationRequest;
+import labair_api.dto.AuthenticationResponse;
+import labair_api.dto.RegisterRequest;
 import labair_api.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

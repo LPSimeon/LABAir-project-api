@@ -1,8 +1,9 @@
 package labair_api.services;
 
-import labair_api.config.AuthenticationRequest;
-import labair_api.config.AuthenticationResponse;
-import labair_api.config.RegisterRequest;
+import labair_api.security.JwtService;
+import labair_api.dto.AuthenticationRequest;
+import labair_api.dto.AuthenticationResponse;
+import labair_api.dto.RegisterRequest;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.models.enums.Role;
 import labair_api.models.User;

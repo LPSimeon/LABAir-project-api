@@ -1,7 +1,6 @@
 package labair_api.controllers;
 
 import labair_api.dto.CartItemDTO;
-import labair_api.models.CartItem;
 import labair_api.services.CartItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
