@@ -1,110 +1,119 @@
 # LabAir API
 
-This is my third and last project I've done that is assigned to me do during the LABFORWEB course. 
-It's a Backend REST API to connect the previous project **LabAir**-project-v2 (frontend), a hypothetical e-commerce of shoes based on Nike.com that is constructed with Angular as the main framework.
-
-Questo servizio fornisce tutte le API necessarie al frontend Angular per la gestione di utenti, catalogo prodotti, carrello e ordini.
+This is my third and last project that was assigned to me do during the LABFORWEB course. 
+It's a Backend REST API that connects to the previous project **LabAir-project-v2** (frontend); it provides all necessary APIs for the frontend to manage the users, shoe catalog, cart and orders.
 
 ---
 
 ## Configuration
 
-- **Java 17**
-- **Spring Boot**
-- **Spring Security** + **JWT** (autenticazione e autorizzazione)
-- **Spring Data JPA**
-- **MySQL**
-- **Lombok**
-- **Springdoc OpenAPI** (documentazione API)
-- **Maven**
+For this project I'm using **Java 17** with **Maven** and MySQL. 
 
----
+What dependencies I used for the project?
 
-## Funzionalità principali
+1. `Spring Web`
+2. `Spring Data JPA`
+3. `Spring Security`
+4. `Lombok`
+5. `MySQL Driver` (In order to communicate with MySQL Server)
+6. `JJWT (API + Impl + Jackson)` (In order to add jwt validation to logged user)
 
-- Registrazione e autenticazione utenti (JWT)
-- Gestione catalogo scarpe (CRUD + filtri per categoria e ordinamento)
-- Gestione carrello
-- Gestione ordini e dati di spedizione
-- Supporto CORS per il frontend Angular (`http://localhost:4200`)
-
----
-
-## Struttura del progetto
-
-src/main/java/labair_api/
-├── config/          # Configurazione Security, JWT Filter, Request/Response
-├── controllers/     # Endpoint REST
-├── dto/             # Data Transfer Objects
-├── exceptions/      # Gestione eccezioni personalizzate
-├── models/          # Entità JPA
-├── repositories/    # Interfacce Spring Data JPA
-└── services/        # Logica di business
-
-
-### Controllers principali
-
-| Controller            | Path base                  | Descrizione                          |
-|-----------------------|----------------------------|--------------------------------------|
-| `AuthController`      | `/api/v1/auth`             | Registrazione e login                |
-| `ShoeController`      | `/api/v1/scarpeList`       | Catalogo scarpe (CRUD + filtri)      |
-| `CartItemController`  | -                          | Gestione carrello                    |
-| `OrderController`     | -                          | Gestione ordini                      |
-| `UserController`      | -                          | Gestione utenti                      |
-
----
-
-## Modelli principali
-
-- **User** – Utenti del sistema
-- **Shoe** – Prodotti (scarpe) con taglie, colori, immagini e flag (nuovi arrivi / best seller)
-- **CartItem** – Elementi del carrello
-- **Order** + **OrderDetails** – Ordini e dettagli
-- **ShippingData** – Dati di spedizione
-- **ImageColor** – Immagini associate ai colori delle scarpe
-
----
-
-## Configurazione
-
-Il file `application.properties` contiene la configurazione del database:
+How I'm configuring the database? I added in `application.properties` the following configuration:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/labair_db
+spring.datasource.url=jdbc:mysql://localhost:3306/labair_db?\
+  useSSL=false&allowPublicKeyRetrieval=true\
+  &createDatabaseIfNotExist=true
 spring.datasource.username=root
 spring.datasource.password=root
 spring.jpa.hibernate.ddl-auto=create-drop
+
+# to always run SQL scripts
+spring.sql.init.mode=always
+spring.jpa.defer-datasource-initialization=true
 ```
-Nota: in produzione modificare le credenziali e impostare ddl-auto su un valore più sicuro (validate o none).
 
-### Come avviare il progetto
-Prerequisiti
+For the data I created **_data.sql_** where the Spring Boot is extracting from.
 
-Java 17+
-Maven
-MySQL in esecuzione
+---
+
+## Features
+
+- User registration and authentication (JWT)
+- Management of shoe list/catalog (CRUD + filters by category and sort)
+- Cart management
+- Order management and Shipping data
+- CORS support for the Angular frontend (labair-project-v2) (`http://localhost:4200`)
+
+---
+
+## Project Structure
+```
+src/main/java/labair_api/
+├── config/          # ApplicationConfig
+├── controllers/     
+├── dto/             
+├── exceptions/      # Created some custom exception
+├── models/          # JPA Entities
+├── repositories/    # Spring Data JPA Interfaces 
+├── security/        # JwtAuthentication, JwtService and SecurityConfig
+└── services/        
+```
+
+### Controllers
+
+| Controller            | Base Path                  | Description                          |
+|-----------------------|----------------------------|--------------------------------------|
+| `ShoeController`      | `/api/v1/scarpeList`       | Shoe List (CRUD + filter)            |
+| `AuthController`      | `/api/v1/auth`             | Registration and authentication      |
+| `UserController`      | `/api/v1/utente`           | User management                      |
+| `CartItemController`  | `/api/v1/carrello`         | Cart Management                      |
+| `OrderController`     | `/api/v1/ordine`           | Oder creation                        |
+
+---
+
+### Models (JPA entities)
+
+- _**User**_
+- _**Shoe**_ – The product that contains size, colors, its images and flags (nuovi_arrivi / best_seller)
+- _**ImageColor**_ - For each color we have the set of images of the shoe
+- _**CartItem**_
+- _**Order**_ + _**OrderDetails**_
+- _**ShippingData**_
+
+---
+
+## How to Run the project
+
+To start the project, please click on the Run icon by opening the main class `RestApiComuniApplication`:
+
+![Icon to run the project](src/main/resources/static/images/icon-img.png)
+
+In order to test the endpoints, please use GUI clients like Insomnia, Postman, etc...
+> [!NOTE]
+> Before running the project, make sure you have MySQL Server in running
+
 
 ##### Passi
 
-Clona il repository:Bashgit clone https://github.com/LPSimeon/LABAir-project-api.git
-cd LABAir-project-api
-Assicurati che MySQL sia attivo e che esista il database labair_db (oppure lascia che venga creato automaticamente).
-Avvia l'applicazione:Bash./mvnw spring-boot:run
+By running the project, we have access to the following endpoints:
 
-L'API sarà disponibile su:
+```
+Index:
+http://localhost:8080/
 
-http://localhost:8080
+Endpoints:
+http://localhost:8080/api/v1/scarpeList (GET ALL shoes)
+http://localhost:8080/api/v1/scarpeList/{scarpaId} (GET, PATCH and DELETE ONE shoe)
+http://localhost:8080/api/v1/auth/register (Registration with JWT)
+http://localhost:8080/api/v1/auth/authenticate (Login/Authentication)
+http://localhost:8080/api/api/v1/utente/{userId} (GET, PATCH, DELETE ONE user)
+http://localhost:8080/api/v1/carrello (GET, POST)
+http://localhost:8080/api/v1/carrello/{itemId} (PATCH, DELETE)
+http://localhost:8080/api/v1/ordine (GET ALL orders)
+http://localhost:8080/api/v1/ordine/create (POST)
+http://localhost:8080/api/v1/ordine/{orderId} (DELETE)
+```
 
-Endpoint di autenticazione
-
-MetodoEndpointDescrizionePOST/api/v1/auth/registerRegistrazione nuovo utentePOST/api/v1/auth/authenticateLogin e generazione JWT
-
-Repository correlata
-Frontend Angular del progetto:
-
-LABAir-project-v2
-
-Autore
-LPSimeon
-
-Progetto realizzato nell’ambito del corso di formazione LabForWeb.
+Repository of LABAir-project-v2:
+[Click the link](https://github.com/LPSimeon/LABAir-project-v2.git).

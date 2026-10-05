@@ -1,6 +1,5 @@
 package labair_api.controllers;
 
-import labair_api.dto.LoginDTO;
 import labair_api.dto.UserDTO;
 import labair_api.models.User;
 import labair_api.services.UserService;

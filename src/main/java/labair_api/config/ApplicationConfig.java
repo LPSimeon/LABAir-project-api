@@ -1,6 +1,5 @@
 package labair_api.config;
 
-import labair_api.models.User;
 import labair_api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +20,9 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-//            User userFound = userRepository.findByEmail(username).orElseThrow(()_> new UsernameNotFoundException("Utente non trovato"));
-            // System.out.println("USER TROVATO: " + user);
-            return userRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("Utente non trovato"));
+            return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
         };
     }
-
-//    AuthenticationProvider Bean removed
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
