@@ -6,8 +6,6 @@ It's a Backend REST API that connects to the previous project **LabAir-project-v
 Repository of LABAir-project-v2:
 [Click the link](https://github.com/LPSimeon/LABAir-project-v2.git)
 
----
-
 ## Configuration
 
 For this project I'm using **Java 17** with **Maven** and MySQL. 
@@ -38,8 +36,6 @@ spring.jpa.defer-datasource-initialization=true
 
 For the data I created **_data.sql_** where the Spring Boot is extracting from.
 
----
-
 ## Features
 
 - User registration and authentication (JWT)
@@ -47,8 +43,6 @@ For the data I created **_data.sql_** where the Spring Boot is extracting from.
 - Cart management
 - Order management and Shipping data
 - CORS support for the Angular frontend (labair-project-v2) (`http://localhost:4200`)
-
----
 
 ## Project Structure
 ```
@@ -73,8 +67,6 @@ src/main/java/labair_api/
 | `CartItemController`  | `/api/v1/carrello`         | Cart Management                      |
 | `OrderController`     | `/api/v1/ordine`           | Oder creation                        |
 
----
-
 ### Models (JPA entities)
 
 - _**User**_
@@ -84,7 +76,6 @@ src/main/java/labair_api/
 - _**Order**_ + _**OrderDetails**_
 - _**ShippingData**_
 
----
 
 ## How to Run the project
 
