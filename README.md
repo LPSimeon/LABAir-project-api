@@ -3,6 +3,9 @@
 This is my third and last project that was assigned to me do during the LABFORWEB course. 
 It's a Backend REST API that connects to the previous project **LabAir-project-v2** (frontend); it provides all necessary APIs for the frontend to manage the users, shoe catalog, cart and orders.
 
+Repository of LABAir-project-v2:
+[Click the link](https://github.com/LPSimeon/LABAir-project-v2.git)
+
 ---
 
 ## Configuration
@@ -114,6 +117,3 @@ http://localhost:8080/api/v1/ordine (GET ALL orders)
 http://localhost:8080/api/v1/ordine/create (POST)
 http://localhost:8080/api/v1/ordine/{orderId} (DELETE)
 ```
-
-Repository of LABAir-project-v2:
-[Click the link](https://github.com/LPSimeon/LABAir-project-v2.git).
