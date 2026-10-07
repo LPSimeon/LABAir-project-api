@@ -12,4 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     Optional<Order> findByIdAndOrderAccessToken(String id, String orderAccessToken);
 
     List<Order> findAllByUtente_Email(String email);
+
+    Boolean existsByIdAndUtente_Email(String id, String email);
 }

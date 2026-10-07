@@ -48,7 +48,7 @@ public class OrderController {
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable String orderId, Authentication auth) {
         String userEmail = auth.getName();
-        orderService.deleteOrderById(orderId);
+        orderService.deleteOrderById(orderId, userEmail);
 
         Map<String, String> response = new HashMap<>();
 

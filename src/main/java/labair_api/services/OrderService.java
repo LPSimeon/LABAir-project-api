@@ -56,7 +56,7 @@ public class OrderService {
                 .toUpperCase();
 
         orderToAdd.setId(iniziali + "-" + codice);
-        System.out.println("Order ID: " + orderToAdd.getId());
+//        System.out.println("Order ID: " + orderToAdd.getId());
 
         orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
         orderToAdd.setPagamento(order.getPagamento());
@@ -89,15 +89,13 @@ public class OrderService {
         orderToAdd.setDettagli(details);
 
         orderRepository.save(orderToAdd);
-        return convertToDTO(orderToAdd); // provare a mettere il convertToDTO
+        return convertToDTO(orderToAdd);
     }
 
     public OrderDTO findById(String id, String email, String orderAccessToken) {
-
         Order orderFound;
 
         if (email != null) {
-
             orderFound = orderRepository
                     .findByIdAndUtente_Email(id, email)
                     .orElseThrow(() ->
@@ -107,7 +105,6 @@ public class OrderService {
                     );
 
         } else if (orderAccessToken != null) {
-
             orderFound = orderRepository
                     .findByIdAndOrderAccessToken(id, orderAccessToken)
                     .orElseThrow(() ->
@@ -115,7 +112,6 @@ public class OrderService {
                                     "Ordine non trovato con id: " + id
                             )
                     );
-
         } else {
             throw new ResourceNotFoundException("Credenziali ordine mancanti");
         }
@@ -134,8 +130,8 @@ public class OrderService {
         return convertedOrders;
     }
 
-    public void deleteOrderById(String id) {
-        if (orderRepository.existsById(id)) {
+    public void deleteOrderById(String id, String email) {
+          if (orderRepository.existsByIdAndUtente_Email(id,email)) {
             orderRepository.deleteById(id);
         }
     }
