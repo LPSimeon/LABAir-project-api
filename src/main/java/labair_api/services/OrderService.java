@@ -19,7 +19,7 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
-    private final CartItemService cartItemRepository;
+    private final CartItemService cartItemService;
     private final ShoeRepository shoeRepository;
 
     public OrderDTO createOrder(CreateOrderDTO order, String email) {
@@ -34,7 +34,7 @@ public class OrderService {
                             ));
 
             orderToAdd.setUtente(userFound);
-            cartItems = cartItemRepository.getCartByUserEmail(userFound.getEmail());
+            cartItems = cartItemService.getCartByUserEmail(userFound.getEmail());
         } else {
             String orderAccessToken = UUID.randomUUID().toString().substring(0, 4);
             orderToAdd.setOrderAccessToken(orderAccessToken);
