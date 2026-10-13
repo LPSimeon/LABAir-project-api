@@ -33,13 +33,10 @@ public class UserService {
         return userRepository.save(userFound);
     }
 
-    public boolean removeUser(Long id) {
+    public void removeUser(Long id) {
         if (!userRepository.existsById(id)) {
-            return false;
+            userRepository.deleteById(id);
         }
-
-        userRepository.deleteById(id);
-        return true;
     }
 
     public UserDTO convertToDTO(User user) {
