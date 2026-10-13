@@ -27,6 +27,11 @@ public class ShoeService {
             convertedShoes.add(convertToDTO(shoe));
         }
 
+//        shoeRepository.findAll()
+//            .stream()
+//            .map(this::convertToDTO)
+//            .toList();
+
         return convertedShoes;
     }
 
@@ -39,21 +44,9 @@ public class ShoeService {
     }
 
     public void updateShoeById(Long id, Shoe shoeDetails) {
+        // Imparare a usare exception handler
         Shoe existingShoe = shoeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + shoeDetails.getId()));
-
-        if (shoeDetails.getNome() != null) existingShoe.setNome(shoeDetails.getNome());
-        if (shoeDetails.getCategoria() != null) existingShoe.setCategoria(shoeDetails.getCategoria());
-        if (shoeDetails.getPrezzo() != null) existingShoe.setPrezzo(shoeDetails.getPrezzo());
-        if (shoeDetails.getTaglieDisponibili() != null)
-            existingShoe.setTaglieDisponibili(shoeDetails.getTaglieDisponibili());
-        if (shoeDetails.getColoriDisponibili() != null)
-            existingShoe.setColoriDisponibili(shoeDetails.getColoriDisponibili());
-        if (shoeDetails.getDescrizione() != null) existingShoe.setDescrizione(shoeDetails.getDescrizione());
-        if (shoeDetails.getImmagineCover() != null) existingShoe.setImmagineCover(shoeDetails.getImmagineCover());
-        if (shoeDetails.getImmaginiScarpa() != null) existingShoe.setImmaginiScarpa(shoeDetails.getImmaginiScarpa());
-        if (shoeDetails.getNuoviArrivi() != null) existingShoe.setNuoviArrivi(existingShoe.getNuoviArrivi());
-        if (shoeDetails.getBestSeller() != null) existingShoe.setBestSeller(existingShoe.getBestSeller());
-
+        updateShoeProperties(shoeDetails, existingShoe);
         shoeRepository.save(existingShoe);
     }
 
@@ -64,18 +57,9 @@ public class ShoeService {
     }
 
     public List<ShoeDTO> findShoesByFilters(String category, String sortBy) {
-        Sort sortedShoes = Sort.unsorted();
+        Sort sortedShoes = getSort(sortBy);
         List<Shoe> extractedShoes;
         List<ShoeDTO> convertedShoes = new ArrayList<>();
-
-        if (sortBy != null && !sortBy.isEmpty()) {
-            sortedShoes = switch (sortBy) {
-                case "newest" -> Sort.by("nuoviArrivi").descending();
-                case "priceAsc" -> Sort.by("prezzo").ascending();
-                case "priceDesc" -> Sort.by("prezzo").descending();
-                default -> Sort.unsorted();
-            };
-        }
 
         if (category == null || category.isBlank() || category.equalsIgnoreCase("all")) {
             extractedShoes = shoeRepository.findAll(sortedShoes);
@@ -115,5 +99,31 @@ public class ShoeService {
         convertedShoe.setBestSeller(shoe.getBestSeller());
 
         return convertedShoe;
+    }
+
+    private void updateShoeProperties(Shoe target, Shoe source) {
+        if (source.getNome() != null) target.setNome(source.getNome());
+        if (source.getCategoria() != null) target.setCategoria(source.getCategoria());
+        if (source.getPrezzo() != null) target.setPrezzo(source.getPrezzo());
+        if (source.getTaglieDisponibili() != null) target.setTaglieDisponibili(source.getTaglieDisponibili());
+        if (source.getColoriDisponibili() != null) target.setColoriDisponibili(source.getColoriDisponibili());
+        if (source.getDescrizione() != null) target.setDescrizione(source.getDescrizione());
+        if (source.getImmagineCover() != null) target.setImmagineCover(source.getImmagineCover());
+        if (source.getImmaginiScarpa() != null) target.setImmaginiScarpa(source.getImmaginiScarpa());
+        if (source.getNuoviArrivi() != null) target.setNuoviArrivi(source.getNuoviArrivi());
+        if (source.getBestSeller() != null) target.setBestSeller(source.getBestSeller());
+    }
+
+    private Sort getSort(String sortBy) {
+        if (sortBy == null || sortBy.isBlank()) {
+            return Sort.unsorted();
+        }
+
+        return switch (sortBy) {
+            case "newest"    -> Sort.by("nuoviArrivi").descending();
+            case "priceAsc"  -> Sort.by("prezzo").ascending();
+            case "priceDesc" -> Sort.by("prezzo").descending();
+            default          -> Sort.unsorted();
+        };
     }
 }
