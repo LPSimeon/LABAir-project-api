@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -36,53 +34,19 @@ public class ShoeController {
     }
 
     @PostMapping
-    ResponseEntity<Map<String, String>> addShoe(@RequestBody Shoe newShoe) {
-        Shoe created = shoeService.createNewShoe(newShoe);
-
-        Map<String, String> response = new HashMap<>();
-
-        if (created != null) {
-            response.put("code", "201 CREATED");
-            response.put("message", "Scarpa creata con successo");
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } else {
-            response.put("code", "409 CONFLICT");
-            response.put("message", "Scarpa già presente nel db");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-        }
+    ResponseEntity<Shoe> addShoe(@RequestBody Shoe newShoe) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(shoeService.createNewShoe(newShoe));
     }
 
     @PatchMapping("/{shoeId}")
-    ResponseEntity<Map<String, String>> modifyShoe(@PathVariable Long shoeId, @RequestBody Shoe shoeToUpdate) {
-        Shoe updated = shoeService.updateShoeById(shoeId, shoeToUpdate);
-
-        Map<String, String> response = new HashMap<>();
-
-        if (updated != null) {
-            response.put("code", "202 ACCEPTED");
-            response.put("message", "Scarpa aggiornata con successo");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-        } else {
-            response.put("code", "404 NOT FOUND");
-            response.put("message", "Scarpa non trovata nel db con shoeId: " + shoeId);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }
+    ResponseEntity<Void> modifyShoe(@PathVariable Long shoeId, @RequestBody Shoe shoeToUpdate) {
+        shoeService.updateShoeById(shoeId, shoeToUpdate);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{shoeId}")
-    ResponseEntity<Map<String, String>> deleteShoe(@PathVariable Long shoeId) {
-        boolean deleted = shoeService.deleteShoeById(shoeId);
-
-        Map<String, String> response = new HashMap<>();
-
-        if (deleted) {
-            response.put("code", "202 ACCEPTED");
-            response.put("message", "Scarpa eliminata");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
-        } else {
-            response.put("code", "404 NOT FOUND");
-            response.put("message", "Scarpa non trovata nel db con shoeId: " + shoeId);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }
+    ResponseEntity<Void> deleteShoe(@PathVariable Long shoeId) {
+        shoeService.deleteShoeById(shoeId);
+        return ResponseEntity.noContent().build();
     }
 }

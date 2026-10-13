@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/utente")
@@ -23,7 +21,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    ResponseEntity<Map<String, String>> updateUser(@PathVariable Long userId, @RequestBody UserDTO selectedUser) {
+    ResponseEntity<Void> updateUser(@PathVariable Long userId, @RequestBody UserDTO selectedUser) {
         User updated = userService.updateUserById(userId, selectedUser);
         if (updated == null) {
             throw new ResourceNotFoundException("Utente non trovato");

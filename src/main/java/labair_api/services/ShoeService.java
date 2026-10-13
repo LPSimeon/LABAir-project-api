@@ -38,7 +38,7 @@ public class ShoeService {
         return shoeRepository.save(shoe);
     }
 
-    public Shoe updateShoeById(Long id, Shoe shoeDetails) {
+    public void updateShoeById(Long id, Shoe shoeDetails) {
         Shoe existingShoe = shoeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + shoeDetails.getId()));
 
         if (shoeDetails.getNome() != null) existingShoe.setNome(shoeDetails.getNome());
@@ -54,15 +54,13 @@ public class ShoeService {
         if (shoeDetails.getNuoviArrivi() != null) existingShoe.setNuoviArrivi(existingShoe.getNuoviArrivi());
         if (shoeDetails.getBestSeller() != null) existingShoe.setBestSeller(existingShoe.getBestSeller());
 
-        return shoeRepository.save(existingShoe);
+        shoeRepository.save(existingShoe);
     }
 
-    public boolean deleteShoeById(Long id) {
+    public void deleteShoeById(Long id) {
         if (!shoeRepository.existsById(id)) {
-            return false;
+            shoeRepository.deleteById(id);
         }
-        shoeRepository.deleteById(id);
-        return true;
     }
 
     public List<ShoeDTO> findShoesByFilters(String category, String sortBy) {
