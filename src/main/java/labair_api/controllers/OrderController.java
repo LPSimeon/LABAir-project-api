@@ -5,14 +5,11 @@ import labair_api.dto.OrderDTO;
 import labair_api.exceptions.ResourceNotFoundException;
 import labair_api.services.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -24,14 +21,12 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<OrderDTO>> getAllOrders(Authentication auth) {
         String userEmail = auth.getName();
-
         return ResponseEntity.ok(orderService.getAllOrders(userEmail));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrderById(Authentication auth, @PathVariable String id, @RequestParam(required = false) String orderAccessToken) {
         String userEmail = auth != null ? auth.getName() : null;
-
         return ResponseEntity.ok(orderService.findById(id, userEmail, orderAccessToken));
     }
 
@@ -41,19 +36,13 @@ public class OrderController {
             throw new ResourceNotFoundException("Order non trovato");
         }
         String userEmail = auth != null ? auth.getName() : null;
-
         return ResponseEntity.ok(orderService.createOrder(order, userEmail));
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable String orderId, Authentication auth) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable String orderId, Authentication auth) {
         String userEmail = auth.getName();
         orderService.deleteOrderById(orderId, userEmail);
-
-        Map<String, String> response = new HashMap<>();
-
-        response.put("code", "202 ACCEPTED");
-        response.put("message", "Ordine eliminato");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return ResponseEntity.noContent().build();
     }
 }

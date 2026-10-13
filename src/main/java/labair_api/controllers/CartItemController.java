@@ -32,26 +32,16 @@ public class CartItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity<Map<String, String>> updateItemQuantity(@PathVariable String itemId, @RequestBody CartItemDTO selectedCartItem, Authentication auth) {
+    public ResponseEntity<Void> updateItemQuantity(@PathVariable String itemId, @RequestBody CartItemDTO selectedCartItem, Authentication auth) {
         String userEmail = auth.getName();
         cartItemService.updateCartItemQuantity(itemId, selectedCartItem, userEmail);
-
-        Map<String, String> response = new HashMap<>();
-
-        response.put("code", "202 ACCEPTED");
-        response.put("message", "Quantità aggiornata con successo");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Map<String, String>> deleteItem(@PathVariable String itemId, Authentication auth) {
+    public ResponseEntity<Void> deleteItem(@PathVariable String itemId, Authentication auth) {
         String userEmail = auth.getName();
         cartItemService.removeCartItem(itemId, userEmail);
-
-        Map<String, String> response = new HashMap<>();
-
-        response.put("code", "202 ACCEPTED");
-        response.put("message", "Item eliminato");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        return ResponseEntity.noContent().build();
     }
 }
