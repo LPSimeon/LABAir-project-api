@@ -28,7 +28,7 @@ public class CartItemController {
     @PostMapping
     public ResponseEntity<CartItemDTO> addNewItem(@RequestBody CartItemDTO itemToAdd, Authentication auth) {
         String userEmail = auth.getName();
-        return ResponseEntity.ok(cartItemService.addCartItem(itemToAdd, userEmail));
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartItemService.addCartItem(itemToAdd, userEmail));
     }
 
     @PatchMapping("/{itemId}")
