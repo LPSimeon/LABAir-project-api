@@ -45,18 +45,7 @@ public class OrderService {
 
         double totale = 0;
 
-        // to create the order id
-        String iniziali =
-                order.getDatiSpedizione().getNome().substring(0, 1).toLowerCase()
-                        + order.getDatiSpedizione().getCognome().substring(0, 1).toLowerCase();
-
-        String codice = UUID.randomUUID()
-                .toString()
-                .substring(0, 8)
-                .toUpperCase();
-
-        orderToAdd.setId(iniziali + "-" + codice);
-//        System.out.println("Order ID: " + orderToAdd.getId());
+        orderToAdd.setId(createOrdineId(order));
 
         orderToAdd.setDataOrdine(LocalDateTime.now().toString()); // Per adesso metto a stringa
         orderToAdd.setPagamento(order.getPagamento());
@@ -67,23 +56,10 @@ public class OrderService {
             orderToAdd.setDatiSpedizione(shippingData);
         }
 
-        List<OrderDetails> details = new ArrayList<>();
-
-        for (CartItemDTO cartItem : cartItems) {
-            Shoe shoe = shoeRepository.findById(cartItem.getScarpaId()).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + cartItem.getScarpaId()));
-
-            OrderDetails detail = new OrderDetails();
-            detail.setOrdine(orderToAdd);
-            detail.setScarpa(shoe);
-            detail.setQuantita(cartItem.getQuantita());
-            detail.setTaglia(cartItem.getTaglia());
-            detail.setColore(cartItem.getColore());
-            detail.setPrezzoUnitario(shoe.getPrezzo());
-
-            details.add(detail);
-
-            totale += shoe.getPrezzo() * cartItem.getQuantita();
-        }
+        List<OrderDetails> details = cartItems.stream().map(cartItem -> createOrderDetails(cartItem, orderToAdd)).toList();
+        totale = details.stream()
+                .mapToDouble(d -> d.getPrezzoUnitario() * d.getQuantita())
+                .sum();
 
         orderToAdd.setTotale(totale);
         orderToAdd.setDettagli(details);
@@ -115,7 +91,6 @@ public class OrderService {
         } else {
             throw new ResourceNotFoundException("Credenziali ordine mancanti");
         }
-
         return convertToDTO(orderFound);
     }
 
@@ -126,7 +101,6 @@ public class OrderService {
         for (Order order : orders) {
             convertedOrders.add(convertToDTO(order));
         }
-
         return convertedOrders;
     }
 
@@ -186,7 +160,32 @@ public class OrderService {
                 .toList();
 
         convertedOrder.setDettagli(dettagli);
-
         return convertedOrder;
     }
+
+    private String createOrdineId(CreateOrderDTO order) {
+        String iniziali =
+                order.getDatiSpedizione().getNome().substring(0, 1).toLowerCase()
+                        + order.getDatiSpedizione().getCognome().substring(0, 1).toLowerCase();
+
+        String codice = UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+        return iniziali + "-" + codice;
+    }
+
+    private OrderDetails createOrderDetails(CartItemDTO cartItem, Order orderToAdd) {
+        Shoe shoe = shoeRepository.findById(cartItem.getScarpaId()).orElseThrow(() -> new ResourceNotFoundException("Scarpa non trovata con id: " + cartItem.getScarpaId()));
+
+        OrderDetails detail = new OrderDetails();
+        detail.setOrdine(orderToAdd);
+        detail.setScarpa(shoe);
+        detail.setQuantita(cartItem.getQuantita());
+        detail.setTaglia(cartItem.getTaglia());
+        detail.setColore(cartItem.getColore());
+        detail.setPrezzoUnitario(shoe.getPrezzo());
+        return detail;
+    }
+
 }
