@@ -85,7 +85,7 @@ To start the project, please click on the Run icon by opening the main class `Re
 
 In order to test the endpoints, please use GUI clients like Insomnia, Postman, etc...
 > [!NOTE]
-> Before running the project, make sure you have MySQL Server in running
+> Before running the project, make sure you have MySQL Server running
 
 
 ### Endpoints
