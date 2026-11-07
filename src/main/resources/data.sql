@@ -78,20 +78,20 @@ INSERT INTO immagini_colore (scarpa_id, colore) VALUES (3, "bianco"), (3, "nero"
 -- Per le immagini delle scarpe in base al colore
 INSERT INTO url_images (img_colore_id, url)
 VALUES (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-1.png"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-2.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-3.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-4.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-5.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-6.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-7.avif"),
-       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-8.avif"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-2.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-3.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-4.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-5.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-6.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-7.webp"),
+       (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-8.webp"),
        (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-1.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-2.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-3.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-4.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-5.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-6.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-7.png"),
-       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-8.png");
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-2.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-3.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-4.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-5.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-6.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-7.avif"),
+       (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-8.avif");
 
 -----
