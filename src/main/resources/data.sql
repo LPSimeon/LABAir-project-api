@@ -65,7 +65,7 @@ VALUES (3, "images/Shoes/react-infinity-run-flyknit/black-yellow/react-infinity-
 
 -- Air Force 1
 INSERT INTO scarpe (nome, categoria, prezzo, descrizione, immagine_cover, nuovi_arrivi, best_seller)
-VALUES ("Nike Air Force 1", "Lifestyle", 109.99, "Le Nike Air Force 1 sono un''icona streetwear, caratterizzate da un design classico e un comfort eccezionale.", "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-1.png", false, 5);
+VALUES ("Nike Air Force 1", "Lifestyle", 119.99, "Le Nike Air Force 1 sono un''icona streetwear, caratterizzate da un design classico e un comfort eccezionale.", "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-1.png", false, 5);
 
 -- Per le taglie (essendo @ElementCollection)
 INSERT INTO scarpa_taglie (scarpa_id, taglie_disponibili) VALUES (3, 38), (3, 39), (3, 40), (3, 41), (3, 42), (3, 43), (3, 44), (3, 45);
@@ -93,5 +93,44 @@ VALUES (6, "images/Shoes/air-force-1/low/white/air-force-1-low-07-triple-white-1
        (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-6.avif"),
        (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-7.avif"),
        (7, "images/Shoes/air-force-1/low/black/air-force-1-low-07-triple-black-8.avif");
-
 -----
+
+-- Air Zoom Pegasus
+INSERT INTO scarpe (nome, categoria, prezzo, descrizione, immagine_cover, nuovi_arrivi, best_seller)
+VALUES ("Nike Pegasus 42", "Running", 139.99, "Le Nike Air Zoom Pegasus 42 offrono una corsa reattiva e ammortizzata grazie all''unità Zoom Air. Ideali per runner di tutti i livelli.", "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-cover.webp", false, 2);
+
+-- Per le taglie (essendo @ElementCollection)
+INSERT INTO scarpa_taglie (scarpa_id, taglie_disponibili) VALUES (4, 38), (4, 39), (4, 40), (4, 41), (4, 42), (4, 43), (4, 44), (4, 45);
+
+-- Per i colori disponibili
+INSERT INTO scarpa_colori (scarpa_id, colori_disponibili) VALUES (4, "nero-arancione"), (4, "bianco-nero"), (4, "blu-verde");
+
+INSERT INTO immagini_colore (scarpa_id, colore) VALUES (4, "nero-arancione"), (4, "bianco-nero"), (4, "blu-verde");
+
+-- Per le immagini delle scarpe in base al colore
+INSERT INTO url_images (img_colore_id, url)
+VALUES (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-1.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-2.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-3.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-4.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-5.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-6.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-7.webp"),
+       (8, "images/Shoes/pegasus-42/black-orange/pegasus-42-black-orange-8.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-1.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-2.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-3.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-4.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-5.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-6.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-7.webp"),
+       (9, "images/Shoes/pegasus-42/white-black/pegasus-42-white-black-8.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-1.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-2.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-3.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-4.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-5.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-6.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-7.webp"),
+       (10, "images/Shoes/pegasus-42/blue-green/pegasus-42-blue-green-8.webp");
+----
